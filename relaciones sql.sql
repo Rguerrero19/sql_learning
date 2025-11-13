@@ -85,3 +85,20 @@ como clave foranea
     FOREIGN KEY (id_departamento) REFERENCES departamentos(id_departamento)
   );
 
+Para agregar claves foraneas a tablas ya existentes se puede utilizar el comando ALTER TABLE
+
+  CREATE TABLE departamentos (
+    id_departamento INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_departamento VARCHAR(30)
+  );
+
+  CREATE TABLE empleados (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    nommbre VARCHAR (30)
+    id_departamento INT
+  )
+
+  ALTER TABLE empleados
+  ADD CONSTRAINT FK_departamento
+  FOREIGN KEY (id_departamento) REFERENCES departamentos (id_departamento);
+
