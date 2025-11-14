@@ -101,4 +101,35 @@ Para agregar claves foraneas a tablas ya existentes se puede utilizar el comando
   ALTER TABLE empleados
   ADD CONSTRAINT FK_departamento
   FOREIGN KEY (id_departamento) REFERENCES departamentos (id_departamento);
+_______________________________________________________________________________________________________
+MANTENIMIENTO Y MODIFICACION DE TABLAS es fundamental para asegurar que las bases de datos
+se mantetengan eficientes y organizadas
 
+ALTER TABLE es el comando utilizado para modificar la estructura de una existente en una base de datos
+este puede crear cambios tales como agregar nuevas columnas, eliminar columnas,elimunar columnas,
+modificar columna, camiar el nombre de las tabla o de las colunas, Agregar,Eliminar o modificar
+restricciones, crear o modificar indices.
+
+Ejemplo practico tienes una tabla en la cual se contiene una base de datos con el nombre
+y el id del empleado y necesitas agregar una fila que almacene el correo electronico de cada empleado.
+
+
+Empleados
+ID_empleado Nombre
+1234        Alicia
+9876        Daniela
+
+ALTER TABLE Empleados ADD email VARCHAR (30)
+
+Empleados
+id_empleado |Nombre  |email
+1234        |Alicia  |correo@alicia
+9876        |Daniela |correo@Daniela
+
+Tabla modificada
+
+Algunas de las restrucciones mas comunes son:
+
+NOT NULL: Impide que una columna contenga valores vacios.
+UNIQUE: Garantiza que los valores de una columna sea unicos
+CHECK: Permite definir condiciones especificas que los valores de una columna deben cumplir
