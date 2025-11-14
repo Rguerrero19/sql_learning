@@ -1,0 +1,51 @@
+                                           --//Creacion base de datos y tablas//--
+CREATE DATABASE ignacio_tienda
+
+CREATE TABLE empleados (ID_empleado INT(5) PRIMARY KEY,nombre VARCHAR(20) NOT NULL,apellido VARCHAR(20) NOT NULL,fecha_contrato DATE NOT NULL)
+
+CREATE TABLE productos (ID_producto INT(15) PRIMARY KEY, nombre_producto VARCHAR(30)NOT NULL, categoria VARCHAR(30)NOT NULL, cantidad INT(3)NOT NULL)
+
+CREATE TABLE proveedores (ID_proveedor INT(6) PRIMARY KEY, empresa VARCHAR(20), nombre_proveedor VARCHAR(20), contacto VARCHAR(20) NOT NULL)
+
+CREATE TABLE ventas (ID_venta INT(8) NOT NULL,id_empleado INT(5) NOT NULL,id_producto INT(15) NOT NULL)
+
+CREATE TABLE compras (ID_compra INT(8) NOT NULL,id_empleado INT(5) NOT NULL,id_producto INT(15) NOT NULL,id_proveedor INT(6) NOT NULL)
+
+						--// Valores de tablas primarias//--
+INSERT empleados VALUES (10001,'Ignacio','Mendoza','2025-10-08')
+INSERT INTO productos VALUES (750333444,'coca cola 300ml','refrescos',15)
+INSERT INTO proveedores VALUES(000257,'coac cola','juan','333512345')
+
+						--//llaves foraneas//--
+ALTER TABLE ventas ADD CONSTRAINT ventas_empleado FOREIGN KEY (ID_empleado) REFERENCES empleados(ID_empleado)
+ALTER TABLE compras ADD CONSTRAINT empleado_compra FOREIGN KEY (ID_empleado) REFERENCES empleados(ID_empleado)
+
+						--//Valores en tablas foraneas//--
+INSERT INTO `ventas` (`ID_venta`, `id_empleado`, `id_producto`) VALUES ('87654321', '10001', '750333444')===
+INSERT INTO `compras` (`ID_compra`, `ID_empleado`, `id_producto`, `id_proveedor`) VALUES ('88446678', '10001', '750333444', '000257')===
+INSERT INTO `compras` (`ID_compra`, `ID_empleado`, `id_producto`, `id_proveedor`) VALUES ('12345678', '10001', '750333444', '000257')===
+
+						--//Valores en la tabla productos (cat/frituras)//--
+INSERT INTO productos VALUES
+(750232323,'sabritas original 50g','frituras',12),
+(750343434,'sabritas limon 50g','frituras',12),
+(750454545,'sabritas especias 50g','frituras',12),
+(750616161,'rufles queso orginal 50g','frituras',12);
+
+						--//Valores tabla productos (cat/refrescos familiares)//--
+INSERT INTO productos VALUES
+(750767676,'sidral mundet 2L','refrescos familiares',12),
+(750545454,'fresca 2L','refescos familiares',12),
+(750292929,'coca cola light 2L','refrescos familiares',12),
+(750636363,'coca cola zero 2L','refrescos familiares',12);
+
+						--//Valores tabla empleados//--
+INSERT INTO empleados VALUES
+(1003,'Diego','Leyva','2025-11-04'),
+(1004,'Fernando','Guerrero','2025-11-04'),
+(1002,'Daniela','Flores','2025-11-03'),
+(1001,'Ignacio','Mendoza','2025-10-08');
+						--//Valores tabla proveedores//--
+INSERT INTO proveedores VALUES
+(000456,'sabritas','carlos','555778767'),
+(000257,'coca cola','juan','333512345');
