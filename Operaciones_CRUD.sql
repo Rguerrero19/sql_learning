@@ -1,9 +1,9 @@
 Operaciones CRUD
 
-Create
-Read
-Update
-Delete
+CREATE
+READ
+UPDATE
+DELETE
 
 Comandos de operaciones CRUD INSERT INTO,SELECT,UPDATE 
 
@@ -50,4 +50,18 @@ JOIN pedidos p ON c.ID_cliente = p.ID_cliente               | union de las tabla
 WHERE c.ciudad = 'madrid'                                   | filtrado de la tabla
 GROUP BY c.nombre,c.ciudad                                  | agrupacion de las tablas
 ORDER BY total_gastado DEC;                                 | ordenar de manera
+
+UPDATE permite modificar o actualizar registros existentes en una tabla es fundamental utilizarla ci=on condiciones como WHERE
+para conrolar de manera precisa el cambio realizado.
+
+UPDATE Clientes
+SET direccion "Nueva calle #123"
+WHERE ID_cliente = 1;
+
+DELETE este comando permite borrar los datos de una tabla,linea o base de datos por lo que es muy IMPORTANTE ACOMPANARLA CON CON LA
+CONDICION WHERE PARA ESPECIFICAR DONDE SE ARA EL BORRADO de ser pocible realiza una consulta prebia entes de terminar tu comando DELETE
+
+
+DELETE FROM Productos
+WHERE ID_producto = 123;
 
