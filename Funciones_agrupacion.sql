@@ -27,3 +27,34 @@ estadisticos donde necesitas entender el valor medio de un conjunto de datos.
                             Ejemplo consulta
         Consultar el salario promedio de los empleados en una empresa
                     SELECT AVG (salario) FROM empleados
+
+MIN() y MAX(): Estas funciones son usadas para encontrar el valor minimo y maximo en un conjunto
+de datos
+                                Ejemplo consulta
+                        Precio mas alto de un producto vendido
+                        SELECT MAX(precio) FROM productos
+
+                        Precio mas bajo de un producto vendido
+                        SELECT MIN(precio) FROM productos
+
+GROUP BY: Es utilizasa para segmentar datos en grupos distintos, lo que es epecialmente util para
+realizar  calculos agregados, como sumas, promedios y conteos sobre cada grupoo de manera independiente
+
+                                Ejemplo consulta
+SELECT                                                  
+        t.nombre_tienda,
+        p.categoria
+        SUM(v.cantidad * v.precio) AS total_ventas,     |calcular total de ventas
+        COUNT(v.ID_venta) AS numero_transacciones       |contar numero de transacciones 
+FROM ventas
+
+INNER JOIN tiendas t ON v.ID_tienda = t.ID_tienda       |conectar las tablas ventas,tiendas, productos
+INNER JOIN productos p ON v.ID_producto = p.ID_producto |y acceder a la informacion cruzada de estas
+
+GROUP BY t.nombre_tienda , p.categoria                  |agrupar los resultados por nombre de tienda y categoria
+
+ORDER BY total ventas DESC;                             |ordenar el total de ventas en orden secendente
+
+HAVING: Se utiliza para filtrar los resutados de una consulta. A diferencia de WHERE que filtra
+filas individuales antes de aguparlas, HAVING filtra los grupos despues de que se han aplicado funciones 
+de agregacion como SUM(),COUNT() o AVG().
