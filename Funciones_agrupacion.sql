@@ -58,3 +58,11 @@ ORDER BY total ventas DESC;                             |ordenar el total de ven
 HAVING: Se utiliza para filtrar los resutados de una consulta. A diferencia de WHERE que filtra
 filas individuales antes de aguparlas, HAVING filtra los grupos despues de que se han aplicado funciones 
 de agregacion como SUM(),COUNT() o AVG().
+
+                                Ejemplo consulta
+                SELECT                                  
+                        ID_producto,
+                        SUM(cantidad) AS total_cantidad |sumas la cantidad vendidapor cada producto
+                FROM ventas
+                GROUP BY ID_producto                    |agrupacion de productos                          
+                HAVING SUM(cantidad) > 10;              |filtrar los grupos por la suma de cantidad vendida
