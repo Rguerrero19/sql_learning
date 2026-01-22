@@ -7,9 +7,9 @@ CREATE TABLE productos (ID_producto INT(15) PRIMARY KEY, nombre_producto VARCHAR
 
 CREATE TABLE proveedores (ID_proveedor INT(6) PRIMARY KEY, empresa VARCHAR(20), nombre_proveedor VARCHAR(20), contacto VARCHAR(20) NOT NULL)
 
-CREATE TABLE ventas (ID_venta INT(8) NOT NULL,id_empleado INT(5) NOT NULL,id_producto INT(15) NOT NULL)
+CREATE TABLE ventas (ID_venta INT(8) NOT NULL,ID_empleado INT(5) NOT NULL,ID_producto INT(15) NOT NULL)
 
-CREATE TABLE compras (ID_compra INT(8) NOT NULL,id_empleado INT(5) NOT NULL,id_producto INT(15) NOT NULL,id_proveedor INT(6) NOT NULL)
+CREATE TABLE compras (ID_compra INT(8) NOT NULL,ID_empleado INT(5) NOT NULL,ID_producto INT(15) NOT NULL,ID_proveedor INT(6) NOT NULL)
 
 						--// Valores de tablas primarias//--
 INSERT empleados VALUES (10001,'Ignacio','Mendoza','2025-10-08')
@@ -21,9 +21,9 @@ ALTER TABLE ventas ADD CONSTRAINT ventas_empleado FOREIGN KEY (ID_empleado) REFE
 ALTER TABLE compras ADD CONSTRAINT empleado_compra FOREIGN KEY (ID_empleado) REFERENCES empleados(ID_empleado)
 
 						--//Valores en tablas foraneas//--
-INSERT INTO `ventas` (`ID_venta`, `id_empleado`, `id_producto`) VALUES ('87654321', '10001', '750333444')===
-INSERT INTO `compras` (`ID_compra`, `ID_empleado`, `id_producto`, `id_proveedor`) VALUES ('88446678', '10001', '750333444', '000257')===
-INSERT INTO `compras` (`ID_compra`, `ID_empleado`, `id_producto`, `id_proveedor`) VALUES ('12345678', '10001', '750333444', '000257')===
+INSERT INTO `ventas` (`ID_venta`, `ID_empleado`, `ID_producto`) VALUES ('87654321', '10001', '750333444')===
+INSERT INTO `compras` (`ID_compra`, `ID_empleado`, `ID_producto`, `ID_proveedor`) VALUES ('88446678', '10001', '750333444', '000257')===
+INSERT INTO `compras` (`ID_compra`, `ID_empleado`, `ID_producto`, `ID_proveedor`) VALUES ('12345678', '10001', '750333444', '000257')===
 
 						--//Valores en la tabla productos (cat/frituras)//--
 INSERT INTO productos VALUES
