@@ -1,11 +1,35 @@
+CREATE DATABASE ignacio_tienda
+
                 CREACION DE TABLAS NECESARIAS
     CREATE TABLE empleados
-    (ID_empleado INT(5) PRIMARY KEY,
+    (ID_empleado INTEGER PRIMARY KEY,
     nombre VARCHAR(20) NOT NULL,
     apellido VARCHAR(20) NOT NULL,
     fecha_contrato DATE NOT NULL);
 
-    ALTER TABLE compras ADD CONSTRAINT empleado_compra FOREIGN KEY (ID_empleado) REFERENCES empleados(ID_empleado)
+    CREATE TABLE productos
+    (ID_producto INTEGER PRIMARY KEY,
+    nombre_producto VARCHAR(30)NOT NULL, 
+    categoria VARCHAR(30)NOT NULL, 
+    cantidad INTEGER NOT NULL);
+
+    CREATE TABLE proveedores
+    (ID_proveedor INTEGER PRIMARY KEY, 
+    empresa VARCHAR(20), 
+    nombre_proveedor VARCHAR(20), 
+    contacto VARCHAR(20) NOT NULL);
+
+    CREATE TABLE ventas 
+    (ID_venta INTEGER NOT NULL,
+    ID_empleado INTEGER NOT NULL,
+    ID_producto INTEGER NOT NULL);
+
+    CREATE TABLE compras 
+    (ID_compra INTEGER NOT NULL,
+    ID_empleado INTEGER NOT NULL,
+    ID_producto INTEGER NOT NULL,
+    ID_proveedor INTEGER NOT NULL);
+
 
 
                     INSERTS
@@ -39,3 +63,7 @@ creacion de ralaciones (llaves foraneas)
     ADD CONSTRAINT empleado_compra 
     FOREIGN KEY (ID_empleado) 
     REFERENCES empleados(ID_empleado);
+
+registra 3 compras a distintos proveedores
+    INSERT INTO compras (ID_compra, ID_empleado, ID_producto, ID_proveedor) 
+    VALUES (10,1001,750232323,000456)
