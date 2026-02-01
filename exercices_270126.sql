@@ -76,5 +76,9 @@ registra 3 compras a distintos proveedores
 
 incrementa en 5 unidades la cantidad de los productos de una categoria
     UPDATE productos
-    SET cantidad = cantidad + 5
-    WHERE categoria = 'frituras'
+    SET cantidad = cantidad + 5  #orden
+    WHERE categoria = 'frituras'   #donde/como ejecutara
+    
+    UPDATE empleados
+    SET fecha_contrato
+    WHERE fecha_cintrato < '2020-01-01' #orden incompleta
