@@ -67,3 +67,14 @@ creacion de ralaciones (llaves foraneas)
 registra 3 compras a distintos proveedores
     INSERT INTO compras (ID_compra, ID_empleado, ID_producto, ID_proveedor) 
     VALUES (10,1001,750232323,000456)
+
+    INSERT INTO compras(ID_compra,ID_empleado,ID_producto,ID_proveedor)
+    VALUES (11,1002,750767676,001782)
+
+    INSERT INTO compras (ID_compra, ID_empleado, ID_producto, ID_proveedor) 
+    VALUES (10,1001,750232323,000456)
+
+incrementa en 5 unidades la cantidad de los productos de una categoria
+    UPDATE productos
+    SET cantidad = cantidad + 5
+    WHERE categoria = 'frituras'
