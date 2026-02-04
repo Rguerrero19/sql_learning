@@ -1,6 +1,6 @@
 CREATE DATABASE ignacio_tienda
 
-                CREACION DE TABLAS NECESARIAS
+                --CREACION DE TABLAS NECESARIAS
     CREATE TABLE empleados
     (ID_empleado INTEGER PRIMARY KEY,
     nombre VARCHAR(20) NOT NULL,
@@ -32,15 +32,15 @@ CREATE DATABASE ignacio_tienda
 
 
 
-                    INSERTS
+                    --INSERTS
 
-Inserta 3 empleados nuevos.
+--Inserta 3 empleados nuevos.
     INSERT INTO empleados VALUES
     (1001,'Ignacio','Mendoza','2026-01-27'),
     (1002,'Daniela','Flores','2026-01-27'),
     (1003,'Norma','Silvina','2026-01-27');
 
-Inserta 5 productos en distintas categorías.
+--Inserta 5 productos en distintas categorías.
     INSERT INTO productos VALUES
     (750767676,'sidral mundet 2L','refrescos familiares',12),
     (750232323,'sabritas original 50g','frituras',12),
@@ -48,12 +48,12 @@ Inserta 5 productos en distintas categorías.
     (750555111,'leche monarca 1.8L','lacteos',12),
     (750333555,'vino tinto cavernet','vinos y licores',12);
 
-Inserta 2 proveedores.
+--Inserta 2 proveedores.
     INSERT INTO proveedores VALUES
     (000456,'sabritas','carlos','5551234567'),
     (001782,'coca cola','abraham','5557654321');
 
-creacion de ralaciones (llaves foraneas)
+--creacion de ralaciones (llaves foraneas)
     ALTER TABLE ventas
     ADD CONSTRAINT ventas_empleado
     FOREIGN KEY (ID_empleado) 
@@ -64,7 +64,7 @@ creacion de ralaciones (llaves foraneas)
     FOREIGN KEY (ID_empleado) 
     REFERENCES empleados(ID_empleado);
 
-registra 3 compras a distintos proveedores
+--registra 3 compras a distintos proveedores
     INSERT INTO compras (ID_compra, ID_empleado, ID_producto, ID_proveedor) 
     VALUES (10,1001,750232323,000456)
 
@@ -74,11 +74,29 @@ registra 3 compras a distintos proveedores
     INSERT INTO compras (ID_compra, ID_empleado, ID_producto, ID_proveedor) 
     VALUES (10,1001,750232323,000456)
 
-incrementa en 5 unidades la cantidad de los productos de una categoria
+--incrementa en 5 unidades la cantidad de los productos de una categoria
     UPDATE productos
     SET cantidad = cantidad + 5  #orden
     WHERE categoria = 'frituras'   #donde/como ejecutara
     
+--actualiza la fecha de contrato de los ampleados contratados antes de 2020
     UPDATE empleados
-    SET fecha_contrato
-    WHERE fecha_cintrato < '2020-01-01' #orden incompleta
+    SET fecha_contrato = GETDATE() #se actualizara a la fecha corriente
+    WHERE fecha_contrato < '2020-01-01'; #ejercicio conseptual 
+
+
+
+START TRANSACTION;
+
+-- Registrar venta: obtener cantidad actual y registrar la venta
+INSERT INTO ventas (ID_venta, ID_empleado, ID_producto)
+SELECT 1, 1, 750767676
+FROM productos
+WHERE ID_producto = 750767676
+  AND cantidad >= 1;
+
+-- Disminuir stock del producto
+UPDATE productos 
+SET cantidad = cantidad - 1
+WHERE ID_producto = 750767676
+  AND cantidad >= 1;
