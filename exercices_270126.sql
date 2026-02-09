@@ -23,6 +23,8 @@ CREATE DATABASE ignacio_tienda
     (ID_venta INTEGER NOT NULL,
     ID_empleado INTEGER NOT NULL,
     ID_producto INTEGER NOT NULL);
+    ALTER TABLE ventas
+    ADD COLUMN cantidad integer;
 
     CREATE TABLE compras 
     (ID_compra INTEGER NOT NULL,
@@ -85,18 +87,35 @@ CREATE DATABASE ignacio_tienda
     WHERE fecha_contrato < '2020-01-01'; #ejercicio conseptual 
 
 
+                    --COSULTAS BASICAS--
 
-START TRANSACTION;
+--inaseta una venta y resta una unidad al producto vendido--
+INSERT INTO ventas
 
--- Registrar venta: obtener cantidad actual y registrar la venta
-INSERT INTO ventas (ID_venta, ID_empleado, ID_producto)
-SELECT 1, 1, 750767676
-FROM productos
-WHERE ID_producto = 750767676
-  AND cantidad >= 1;
+VALUES(2323,1001,750767676,1);
 
--- Disminuir stock del producto
-UPDATE productos 
+UPDATE productos
 SET cantidad = cantidad - 1
-WHERE ID_producto = 750767676
-  AND cantidad >= 1;
+WHERE id_producto = 750767676;
+
+--inserta una compra y suma una unidad al producto comprado--
+INSERT INTO compras
+VALUES (5566,1003,750232323,000456,1);
+
+UPDATE productos
+SET cantidad = cantidad + 1
+WHERE id_producto = 750232323;
+
+
+                    --CONSULTAS--
+
+--muestra el nombre y apellido de los empleados junto con el ide de venta que hayan realizado
+SELECT nombre,apellido,id_venta
+FROM empleados,ventas
+WHERE empleados.id_empleado = ventas.id_empleado;
+
+--Lista todas las ventas mostrando:ID de la venta nombre del empleado nombre del producto--
+
+SELECT id_venta,nombre,nombre_producto
+FROM ventas,empleados,productos
+--incompleta--
