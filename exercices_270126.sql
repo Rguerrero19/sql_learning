@@ -1,80 +1,78 @@
 CREATE DATABASE ignacio_tienda
 
-                --CREACION DE TABLAS NECESARIAS
-    CREATE TABLE empleados
-    (ID_empleado INTEGER PRIMARY KEY,
-    nombre VARCHAR(20) NOT NULL,
-    apellido VARCHAR(20) NOT NULL,
-    fecha_contrato DATE NOT NULL);
+----------------------------TABLES---------------------------
+CREATE TABLE empleados
+(id_empleado  SERIAL PRIMARY KEY ,
+nombre_empleado VARCHAR(20) NOT NULL,
+apellido VARCHAR(20) NOT NULL,
+fecha_contrato DATE DEFAULT CURRENT_DATE);
 
-    CREATE TABLE productos
-    (ID_producto INTEGER PRIMARY KEY,
-    nombre_producto VARCHAR(30)NOT NULL, 
-    categoria VARCHAR(30)NOT NULL, 
-    cantidad INTEGER NOT NULL);
+CREATE TABLE productos
+(id_producto INTEGER PRIMARY KEY,
+nombre_producto VARCHAR(30) NOT NULL,
+categoria VARCHAR(20) NOT NULL,
+cantidad INTEGER NOT NULL);
 
-    CREATE TABLE proveedores
-    (ID_proveedor INTEGER PRIMARY KEY, 
-    empresa VARCHAR(20), 
-    nombre_proveedor VARCHAR(20), 
-    contacto VARCHAR(20) NOT NULL);
+CREATE TABLE proveedores
+(id_proveedor SERIAL PRIMARY KEY,
+nombre_empresa VARCHAR(30),
+contacto VARCHAR(30) NOT NULL);
 
-    CREATE TABLE ventas 
-    (ID_venta INTEGER NOT NULL,
-    ID_empleado INTEGER NOT NULL,
-    ID_producto INTEGER NOT NULL);
-    ALTER TABLE ventas
-    ADD COLUMN cantidad integer;
+CREATE TABLE ventas
+(id_venta SERIAL PRIMARY KEY,
+id_empleado INTEGER,
+id_producto INTEGER,
+FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
+FOREIGN KEY (id_producto) REFERENCES productos (id_producto));
 
-    CREATE TABLE compras 
-    (ID_compra INTEGER NOT NULL,
-    ID_empleado INTEGER NOT NULL,
-    ID_producto INTEGER NOT NULL,
-    ID_proveedor INTEGER NOT NULL);
+CREATE TABLE  compras
+(id_compra SERIAL PRIMARY KEY,
+id_proveedor INTEGER,
+id_producto INTEGER,
+id_empleado INTEGER,
+FOREIGN KEY (id_proveedor) REFERENCES proveedores (id_proveedor),
+FOREIGN KEY (id_producto)  REFERENCES productos (id_producto), 
+FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado));
 
+----------------------INSERTS---------------------------------
 
+--inserta 3 empleados nuevos
+INSERT INTO empleados (nombre_empleado,apellido)
+VALUES('Ignacio,mendoza');
 
-                    --INSERTS
+INSERT INTO empleados (nombre_empleado,apellido)
+VALUES('Daniela','flores');
 
---Inserta 3 empleados nuevos.
-    INSERT INTO empleados VALUES
-    (1001,'Ignacio','Mendoza','2026-01-27'),
-    (1002,'Daniela','Flores','2026-01-27'),
-    (1003,'Norma','Silvina','2026-01-27');
+INSERT INTO empleados (nombre_empleado,apellido)
+VALUES('Norma','Silvina');
 
---Inserta 5 productos en distintas categorías.
-    INSERT INTO productos VALUES
-    (750767676,'sidral mundet 2L','refrescos familiares',12),
-    (750232323,'sabritas original 50g','frituras',12),
-    (750123456,'pan dulce','frescos',12),
-    (750555111,'leche monarca 1.8L','lacteos',12),
-    (750333555,'vino tinto cavernet','vinos y licores',12);
+--Inserta 5 productos en distintas categorías.--
+INSERT INTO productos VALUES
+(750767676,'sidral mundet 2L','refrescos familiares',12),
+(750232323,'sabritas original 50g','frituras',12),
+(750123456,'pan dulce','frescos',12),
+(750555111,'leche monarca 1.8L','lacteos',12),
+(750333555,'vino tinto cavernet','vinos y licores',12);
 
---Inserta 2 proveedores.
-    INSERT INTO proveedores VALUES
-    (000456,'sabritas','carlos','5551234567'),
-    (001782,'coca cola','abraham','5557654321');
+--Inserta 3 proveedores.
+INSERT INTO proveedores (nombre_empresa,contacto)
+VALUES ('sabritas','5551234567');
 
---creacion de ralaciones (llaves foraneas)
-    ALTER TABLE ventas
-    ADD CONSTRAINT ventas_empleado
-    FOREIGN KEY (ID_empleado) 
-    REFERENCES empleados(ID_empleado);
+INSERT INTO proveedores (nombre_empresa,contacto)
+VALUES ('coca cola','5557654321');
 
-    ALTER TABLE compras 
-    ADD CONSTRAINT empleado_compra 
-    FOREIGN KEY (ID_empleado) 
-    REFERENCES empleados(ID_empleado);
+INSERT INTO proveedores (nombre_empresa,contacto)
+VALUES('lala','correo_lala.com')
 
 --registra 3 compras a distintos proveedores
-    INSERT INTO compras (ID_compra, ID_empleado, ID_producto, ID_proveedor) 
-    VALUES (10,1001,750232323,000456)
+INSERT INTO compras (id_proveedor,id_producto,id_empleado)
+VALUES (2,750767676,1);
 
-    INSERT INTO compras(ID_compra,ID_empleado,ID_producto,ID_proveedor)
-    VALUES (11,1002,750767676,001782)
+INSERT INTO compras (id_proveedor,id_producto,id_empleado)
+VALUES (1,750232323,3)
 
-    INSERT INTO compras (ID_compra, ID_empleado, ID_producto, ID_proveedor) 
-    VALUES (10,1001,750232323,000456)
+INSERT INTO compras (id_proveedor,id_producto,id_empleado)
+VALUES(3,750555111,2)
 
 --incrementa en 5 unidades la cantidad de los productos de una categoria
     UPDATE productos
@@ -86,36 +84,41 @@ CREATE DATABASE ignacio_tienda
     SET fecha_contrato = GETDATE() #se actualizara a la fecha corriente
     WHERE fecha_contrato < '2020-01-01'; #ejercicio conseptual 
 
+--inserta una venta y resta una unidad al producto vendido--
+INSERT INTO ventas (id_empleado,id_producto)
 
-                    --COSULTAS BASICAS--
-
---inaseta una venta y resta una unidad al producto vendido--
-INSERT INTO ventas
-
-VALUES(2323,1001,750767676,1);
+VALUES(1,750767676);
 
 UPDATE productos
 SET cantidad = cantidad - 1
 WHERE id_producto = 750767676;
 
 --inserta una compra y suma una unidad al producto comprado--
-INSERT INTO compras
-VALUES (5566,1003,750232323,000456,1);
+INSERT INTO compras(id_proveedor,id_producto,id_empleado)
+
+VALUES (3,750555111,1);
 
 UPDATE productos
-SET cantidad = cantidad + 1
-WHERE id_producto = 750232323;
+SET cantidad = cantidad + 3
+WHERE id_producto = 750555111;
 
 
                     --CONSULTAS--
 
 --muestra el nombre y apellido de los empleados junto con el ide de venta que hayan realizado
-SELECT nombre,apellido,id_venta
+SELECT nombre_empleado,apellido,id_venta
 FROM empleados,ventas
-WHERE empleados.id_empleado = ventas.id_empleado;
+WHERE empleados.id_empleado = ventas.id_venta;
 
---Lista todas las ventas mostrando:ID de la venta nombre del empleado nombre del producto--
+--Lista todas las ventas mostrando:
+    --ID de la venta 
+    --nombre del empleado 
+    --nombre del producto
 
 SELECT id_venta,nombre,nombre_producto
-FROM ventas,empleados,productos
---incompleta--
+FROM empleados,productos
+WHERE empleados.id_venta = ventas.id_venta
+--incompleto--
+
+
+
