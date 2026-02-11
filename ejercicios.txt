@@ -1,0 +1,33 @@
+INSERTS
+
+[=]Inserta 3 empleados nuevos.
+[=]Inserta 5 productos en distintas categorías.
+[=]Inserta 2 proveedores.
+[=]Registra 3 compras hechas a distintos proveedores.
+
+[=]Incrementa  5 unidades la cantidad de todos los productos de una categoría.
+[=]Actualiza la fecha de contrato de todos los empleados contratados antes de 2020 (ejercicio conceptual).
+
+[=]Simula una venta: (Inserta la venta y Resta 1 unidad al producto vendido)
+[=]Simula una compra: (Inserta la compra y Suma unidades al producto comprado)
+
+CONSULTAS
+Nivel básico
+[=] Muestra el nombre y apellido de todos los empleados junto con el ID de venta que hayan realizado.
+[] Lista todas las ventas mostrando:
+ID de la venta
+nombre del empleado
+nombre del producto
+
+- Muestra todas las compras con:
+nombre del empleado
+nombre del producto
+nombre del proveedor
+
+- Obtén una lista de productos vendidos, sin repetir productos.
+
+- Muestra el total de ventas realizadas por cada empleado (nombre, apellido, total).
+
+- Lista los productos que nunca se han vendido.
+
+- Muestra los empleados que han realizado compras pero no ventas.
