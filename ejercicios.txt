@@ -14,12 +14,12 @@ INSERTS
 CONSULTAS
 Nivel básico
 [=] Muestra el nombre y apellido de todos los empleados junto con el ID de venta que hayan realizado.
-[] Lista todas las ventas mostrando:
+[=] Lista todas las ventas mostrando:
 ID de la venta
 nombre del empleado
 nombre del producto
 
-- Muestra todas las compras con:
+[=] Muestra todas las compras con:
 nombre del empleado
 nombre del producto
 nombre del proveedor
