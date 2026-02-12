@@ -120,3 +120,13 @@ FROM ventas
 JOIN empleados ON ventas.id_empleado = empleados.id_empleado
 JOIN productos ON ventas.id_producto = productos.id_producto;
 
+--lista todas las ventas mostrando--
+--nombre del empleado--
+--nombre del producto--
+--nombre del provvedor--
+
+SELECT nombre_empleado,nombre_producto,nombre_empresa
+FROM compras
+INNER JOIN 	empleados ON compras.id_empleado = empleados.id_empleado
+INNER JOIN productos ON compras.id_producto = productos.id_producto
+INNER JOIN proveedores ON compras.id_proveedor = proveedores.id_proveedor;
