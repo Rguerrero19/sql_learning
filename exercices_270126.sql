@@ -115,10 +115,8 @@ WHERE empleados.id_empleado = ventas.id_venta;
     --nombre del empleado 
     --nombre del producto
 
-SELECT id_venta,nombre,nombre_producto
-FROM empleados,productos
-WHERE empleados.id_venta = ventas.id_venta
---incompleto--
-
-
+SELECT ventas.id_venta,empleados.nombre_empleado,productos.nombre_producto
+FROM ventas
+JOIN empleados ON ventas.id_empleado = empleados.id_empleado
+JOIN productos ON ventas.id_producto = productos.id_producto;
 
