@@ -24,7 +24,7 @@ nombre del empleado
 nombre del producto
 nombre del proveedor
 
-- Obtén una lista de productos vendidos, sin repetir productos.
+[=] Obtén una lista de productos vendidos, sin repetir productos.
 
 - Muestra el total de ventas realizadas por cada empleado (nombre, apellido, total).
 
