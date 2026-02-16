@@ -130,3 +130,13 @@ FROM compras
 INNER JOIN 	empleados ON compras.id_empleado = empleados.id_empleado
 INNER JOIN productos ON compras.id_producto = productos.id_producto
 INNER JOIN proveedores ON compras.id_proveedor = proveedores.id_proveedor;
+
+--obten una lista de productos vendidos ,sin repetir productos--
+SELECT DISTINCT nombre_producto
+FROM productos
+INNER JOIN ventas ON productos.id_producto = ventas.id_producto;--se motraran los nombres--
+------------------tambien se puede con el id del producto-----------------------------
+SELECT DISTINCT productos.nombre_producto,productos.id_producto
+FROM productos
+INNER JOIN ventas ON productos.id_producto = ventas.id_producto;
+
