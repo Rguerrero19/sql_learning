@@ -135,8 +135,14 @@ INNER JOIN proveedores ON compras.id_proveedor = proveedores.id_proveedor;
 SELECT DISTINCT nombre_producto
 FROM productos
 INNER JOIN ventas ON productos.id_producto = ventas.id_producto;--se motraran los nombres--
-------------------tambien se puede con el id del producto-----------------------------
+------------------tambien se puede agregar el id del producto a la consulta-----------------------------
 SELECT DISTINCT productos.nombre_producto,productos.id_producto
 FROM productos
 INNER JOIN ventas ON productos.id_producto = ventas.id_producto;
 
+-----------------
+SELECT empleados.nombre_empleado,empleados.apellido,
+COUNT (ventas.id_venta)
+FROM empleados
+INNER JOIN ventas ON empleados.id_empleado = ventas.id_empleado
+GROUP BY empleados.nombre_empleado,empleados.apellido;
