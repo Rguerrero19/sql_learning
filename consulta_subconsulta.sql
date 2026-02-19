@@ -48,11 +48,10 @@ COUNT:contar los valores en una tabla .
 AVG:promedio de los varores dentro de una tabla.
 MAX:valor mas alto de una tabla.
 MIN:valor minimo de una tabla.
-
+----------------DISTINCT-------------------
 DISTINCT:Crea una consulta SQL que enlista los valores de una o mas tablas
 tablas sin mostrar valores repetidos.
 
-------------------SYNTAXIS--------------------------
 SELECT DISTINCT columna
 FROM tabla
 # esta consulta mostrara los valores distintos de una tabla, se peude
@@ -65,8 +64,8 @@ INNER JOIN tabla_2 ON tabla_1.PRIMARY_KEY = tabla_2.FOREIGN_KEY;
 existentes en dos tablas sin repetir valores uniendolas por sus llaves
 primaria de la tablla_1 con la llave foranea de la tabla_2
 
------------------------EJEMPLO--------------------------
-SELECT DISTINCT productos.nombre_producto
+---EJEMPLO---
+SELECT DISTINCT productos.nombre_producto #tabla.columna
 FROM productos
 INNER JOIN ventas ON productos.id_producto = ventas.id_producto;
 #esta consulta mostrara el nombre e id de los productos que conciden
@@ -77,3 +76,27 @@ la traduccion podria ser:   SELECCIONA DIFERENCIAS de tabla_1.valor
                             JUNTANDO ventas CON tabla_1.prymary_key = tabla_2.foreign_key
 
 #se pueden agregar los valores de cinsulta necesrios en SELECT DISTINCT
+
+--------------------------COUNT--------------------------------
+COUNT: Eta consuta se utiliza para mostrar un conteo(cuantos) de los valores de una tabla
+especifica.
+-----SYNTAXIS BASICA-----
+
+SELECT COUNT (id_producto)
+FROM productos
+
+esta consulta mostrara el total de registros de la columna id_producto
+te la tabla productos.
+Para utilizarla de manera mas avanzada por ejemplo consultar el total de ventas
+de los empleados de una tienda se puede utilizar la siguiente consulta.
+
+SELECT empleados.nombre_empleado,   #selecciona
+COUNT(ventas.id_venta)              #contando
+FROM empleados                      #desde
+INNER JOIN ventas ON empleados.id_empleado = ventas.id_empleado     #juntando,con
+GROUP BY empleados.nombre_empleado;
+
+esta consulta mostrara los empleados que presenten ventas de manera
+automatica este tipo de consultas se ordenan de manera decendente,
+puedes seleccionar la informacion que se mostrara en la sentencia SELECT
+por ejemplo el nommbre y el apellido del empleado
