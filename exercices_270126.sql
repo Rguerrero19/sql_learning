@@ -140,9 +140,35 @@ SELECT DISTINCT productos.nombre_producto,productos.id_producto
 FROM productos
 INNER JOIN ventas ON productos.id_producto = ventas.id_producto;
 
------------------
+-----------------muestra las ventas realizadas por los empleados mostrando nombre,apellido y ventas-------------
 SELECT empleados.nombre_empleado,empleados.apellido,
 COUNT (ventas.id_venta)
 FROM empleados
 INNER JOIN ventas ON empleados.id_empleado = ventas.id_empleado
 GROUP BY empleados.nombre_empleado,empleados.apellido;
+
+-----------------------------lista los productos que nunca se han vendido---------------------------------------
+--manera simple solo recomdada en bases pequnas--
+SELECT nombre_producto
+FROM productos 
+LEFT JOIN ventas ON productos.id_producto = ventas.id.producto
+WHERE ventas id_producto IS NULL;
+
+--recomendada, mas completa y eficiente en bases grandes--
+SELECT productos.nombre_producto
+FROM productos
+WHERE NOT EXISTS(
+    SELECT 1
+    FROM ventas
+    WHERE ventas.id_producto = productos.id_producto
+);
+
+----------------------------muestra los empleados que han relizado  compras pero no ventas---------------------------------
+SELECT DISTINCT nombre_empleado
+FROM empleados
+INNER JOIN compras ON empleados.id_empleado = compras.id_empleado
+WHERE NOT EXISTS(
+	SELECT 1
+	FROM ventas
+	WHERE ventas.id_empleado = empleados.id_empleado
+);
