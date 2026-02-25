@@ -100,3 +100,27 @@ esta consulta mostrara los empleados que presenten ventas de manera
 automatica este tipo de consultas se ordenan de manera decendente,
 puedes seleccionar la informacion que se mostrara en la sentencia SELECT
 por ejemplo el nommbre y el apellido del empleado
+
+-------------------------IS NULL/NOT EXISTS/EXISTS----------------------------------------------------
+Estas consultas se utilizan para solicitar valores existentes o nulos en las consultas JOIN
+---IS NULL--SYNTAXIS--
+SELECT columna
+FROM tabla_1
+LEFT JOIN tabla2 ON tabla_1.PRIMARY_KEY = tabla_2.FOREIGN_KEY
+WHERE tabla_2.FOREIGN_KEY IS NULL;
+
+esta SYNTAXIS es la mas basica consiste en solicitar si un valor es nulo o no se encuentra
+en la tabla secundaria ahunque es una consulta simple solo se recomienda en bases pequenas
+ya que puede resultar un poco ambigua.
+
+--NOT EXISTS--
+SELECT tabla_1.columna
+FROM tabla_1
+WHERE NOT EXISTS(
+    SELECT 1
+    FROM tabla_2
+    WHERE tabla_1.PRIMARY_KEY = tabla_2.FOREIGN_KEY
+);
+
+esta consulta resulta mas eficiente por lo que se utiliza en bases mas grandes
+--NOTA: SELECT 1 es una convencion que se utiliza para verificar la existencia de datos--
