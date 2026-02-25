@@ -28,6 +28,6 @@ nombre del proveedor
 
 [=]Muestra el total de ventas realizadas por cada empleado (nombre, apellido, total).
 
-- Lista los productos que nunca se han vendido.
+[=]Lista los productos que nunca se han vendido.
 
-- Muestra los empleados que han realizado compras pero no ventas.
+[=]Muestra los empleados que han realizado compras pero no ventas.
