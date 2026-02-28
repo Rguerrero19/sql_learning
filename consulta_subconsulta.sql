@@ -124,3 +124,19 @@ WHERE NOT EXISTS(
 
 esta consulta resulta mas eficiente por lo que se utiliza en bases mas grandes
 --NOTA: SELECT 1 es una convencion que se utiliza para verificar la existencia de datos--
+
+--------------DISTINCT & NOT EXISTS-------------
+estas consultas al usarse juntas muestran el contenido de una tabla que no se encuentra en
+otra una de las formas utiles es saber que empleados han realizado compras pero no ventas
+o productos con ventas pero sin compras.
+
+---SYNTAXIS---
+SELECT DISTINCT columna
+FROM tabla_1
+INNER JOIN tabla_2 ON tabla_1.prymary_key = tabla_2.foreign_key
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM tabla_3
+    WHERE tabla_3.foreign_key = tabla_1.prymary_key
+);
+
