@@ -1,0 +1,39 @@
+EJERCICIOS:
+[=]Crea una tabla clientes: clientes
+ID_cliente (PK)
+nombre
+apellidos
+telefono
+email
+fecha_registro
+
+
+[=] Crea una tabla intermedia: detalle_ventas
+ID_detalle (PK)
+ID_venta (FK)
+ID_producto (FK)
+ID_cliente (FK)
+cantidad
+precio_unitario
+fecha_creado
+
+
+- Elimina la relación directa entre ventas y productos. Ahora una venta puede tener varios productos.
+
+[=]Agrega una columna a todas las tablas para registrar la fecha de creación: fecha_creado.
+[=]Agrega una columna a todas las tablas para registrar la fecha de actualización: fecha_actualizado.
+
+
+QUEYRS:
+*Muestra para un cliente específico, todas las ventas realizadas:
+-nombre del cliente
+-fecha de venta
+-nombre del empleado
+-total
+
+*Obtener el producto mas vendido
+
+*Muestra el inventario actual calculado así:
+suma de compras - menos suma de ventas
+
+
