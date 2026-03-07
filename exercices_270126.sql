@@ -172,3 +172,34 @@ WHERE NOT EXISTS(
 	FROM ventas
 	WHERE ventas.id_empleado = empleados.id_empleado
 );
+
+------------------------------------------Bloque 2 exercices_01026------------------------------------------
+---crea tabla clientes----
+CREATE TABLE clientes
+(id_cliente SERIAL PRIMARY KEY,
+nombre_cliente VARCHAR(30)NOT NULL,
+apellidos VARCHAR (30) NOT NULL,
+telefono INTEGER NOT NULL,
+email VARCHAR(30),
+fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
+
+----crea tabla intermedia: detalle_ventas---
+CREATE TABLE detalle_ventas
+(id_detalle SERIAL PRIMARY KEY,
+id_venta INTEGER
+id_producto INTEGER
+id_cliente INTEGER
+FOREIGN KEY (id_venta) REFERENCES ventas (id_venta)
+FOREIGN KEY (id_producto) REFERENCES productos (id_producto)
+FOREIGN KEY (id_cliente) REFERENCES clientes (id_cliente) 
+cantidad INTEGER
+precio_unitario NUMERIC (6,2) #crear nota
+fecha_creado TIMESTAP DEFAULT CURRENT_TIMESTAMP
+);
+
+-------agregar columna fecha_creacion,fecha atualizacion en todas las tablas-----
+---repite esta sentencia en cada una de tus tablas cambiando el nombre de la tabla----
+--------------a modificar en la linea ALTER TABLE---------
+ALTER TABLE clientes
+ADD COLUMN fecha_creado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN fecha_actualizado TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
