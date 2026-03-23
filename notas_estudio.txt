@@ -204,3 +204,32 @@ DROP COLUMN nombre_columna CASCADE:Esta consulta elimina una columna junto con s
 ALTER COLUMN nombre_columna TYPE tipo dato:Modificar el tipo de dato de una calumna.
 
 RENAME COLUMN nombre_columna TO nuevo_nommbre:Esta consulta renombra la columna de una tabla.
+
+-------------OPERACIONES SQL------------------
+En sql se peude realizar operaciones en consultas hacia columnas de una misma tabla o columnas de diferentes tablas
+SYNTAXIS operaciones de columnas dentro de la misma tabla:      SELECT columna_1,columna_2
+                                                                columna_1 + columna_2
+                                                                FROM tabla_1;
+
+Para realizar etas operaciones en columnas de diferentes tablas existen varios metodos pero son 2 los mas comunes utilizando consulta JOIN.
+SYNTAXIS:SELECT
+		tabla_1.columna1
+		tabla_2.columna2
+		tabla_1.cloumna1 + tabla2.columna2
+		FROM tabla_1
+		JOIN tabla_2 ON tabla_1.pk = tabla_2.fk
+
+Sin utilizar JOIN sumando todos los valores de ambas columnas.
+SYNTAXIS:SELECT
+		(SELECT SUM(columna1) FROM tabla_1)
+		+
+		(SELECT SUM(columna2) FROM tabla_2)
+
+Existe la posibilidad de que la columna que contiene el valor que deseas realisar la opreracion se encuentre en una columna diferente por lo que sera
+necesario relizar un JOIN entre las columnas necesarias un ejemplo de esto puede ser consultar la ganacia del dia comparando las ventas del dia contra
+las compras realizadas a proveedores.
+SYNTAXIS:SELECT
+                (SELECT SUM (precio) FROM ventas JOIN productos ON ventas.id_producto = producto.id_producto)
+                -
+                (SELECT SUM (precio) FROM compras JOIN productos ON compras.id_producto = productos.id_producto)
+                
