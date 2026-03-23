@@ -240,5 +240,5 @@ LIMIT 1;
 SELECT
 (SELECT SUM(precio) FROM ventas JOIN productos ON ventas.id_producto = productos.id_producto)
 -
-(SELECT SUM (precio) FROM compras JOIN productos on compras.id_producto = productos.id_producto)
+(SELECT SUM (precio) FROM compras JOIN productos ON compras.id_producto = productos.id_producto)
 AS ganancia 
