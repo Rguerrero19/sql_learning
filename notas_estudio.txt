@@ -1,0 +1,206 @@
+-----------------------------------------------NOTAS DE ESTUDIO SQL-------------------------------------------------
+
+# Bases de datos:   Una base de datos es un conjunto de datos perteneciente a un mismo contexto 
+                        almacenados para su uso posterior.
+
+#Abstraccion de datos:  Significa lograr una forma de reprecentacion logica de las situaciones del mundo real.
+
+#Modelado de datos: Proporciona los medios necesarios para conseguir una abtraccion.
+
+#Modelo entidad relacion:   Es un metodo para dicenar bases de datos que posteriormente seran implemnatados atrabes de un sistema
+                        gestor representadoa atraves de diagramas.
+
+#Entidades: Representan coas u objetos se muestran en los diagramas con rectangulos.
+
+#Atributos: Los atributos definen las caracteristicas propias por lo general unicas de una entidad, cada entidad contiene distintos 
+                atributos que dan informacion sobre ella misma. Estos tributos pueden ser de distintos tipos(nmericos,texto,fecha.etc).
+_____________________________________________________________________________________________________________________________________
+///////////////////REALACIONES////////////////
+
+Las relaciones tienen una caracteristica conocida como "cardinalidad", lacual indica el sentido y la cantidad de "relaciones"
+que exiten entre una entidad y otra estas pueden ser.
+
+# 1 : N(1 a Muchos):Es decir una persona puede tener muchos autos
+# 1 : 1(1 a 1):Es decir una libreta pertenece a un alumno
+# N : N(muchos a muchos) Es decir muchos alumnos pueden tener mucha materias
+
+------------PRYMARY KEY / FOREIGN KEY---------------
+PRIMARY KEY(llave primaria):Son valores que identifican de maner aunica a cada fila o registro de una tabla por ejemplo
+                        el codigo de barras de unproducto.
+FOREIGN KEY(llave foranea):Es un campo en una tabla que se utilizara para relacionar con otra tabla.
+_____________________________________________________________________________________________________________________________________
+//////////////////CONSULTAS SQL////////////////////
+
+Las consultas SQL son "dialogos  o preguntas" en tre el usaurio y el sistema gestor.
+Existen diferentes sentencias dentro de las consultas SQL las mas conocidas son.
+
+---------CONSULTAS DE LECTURA-------------
+
+SELECT:Utilizada para especificar a que atributo se pretende acceder.
+FROM:Es utilizada  en conjunto con SELECT para especificar desde que tabla se pretende extraer la informacion
+--EJEMPLO:      SELECT nombre
+                FROM nombres
+
+WHERE: Sentencia utilizada para proponer una condicion especifica que debe cumplir el dato que se extraer/modificar(esta no es
+        obligatoria en todas las consultas).
+--EJEMPLO:      SELECT nombre
+                FROM nombres
+                WHERE fecha = 01-01-2000
+
+una manera de traducir estas seria selecciona,de,donde.
+
+-----------CONSULTAS DE ESCRITURA------------
+
+INSERT INTO:Es utilizada para en que tabla se pretende insertar una dato.
+VALUES:Se utiliza en conjunto con INSERT INTO para especificar los valores quee se agregaran a una tabla
+
+--EJEMPLO:  INSERT INTO tabla               Los valores pueden ser varios tipos y estos se separan por una coma
+                VALUES(int,'texto',float)       Tener en cuenta el  orden de los valores y la longitud de estos       
+
+UPDATE:Se utiliza para modificar los valores de una tabla
+SET:Se utiliza en conjunto con UPDATE para especificar cial sera el nuevo valor de la tabla
+WHERE:  Sentencia utilizada para proponer la condicion especifica que debe cumplir el dato a modificar IMPORTANTE se recomienda
+        su uso para evitar un mal manejo de datos ya que ayuda a condicionar donde sera cambiado el valor.
+
+--EJEMPLO:      UPDATE tabla
+                SET nuevo valor     *Tener especial cuidado ya qque si no se acompana de WHERE modificara toda la tabla*
+                WHERE valor anterior/valor especifico
+
+DELETE:Utilizado para borrar de manera permanente uno o varios registros de una tabla *USE CON PRECAUCION* suele acompanarse
+        del comando WHERE para especificar  donde se ara el borrado.
+TRUNCATE TABLE tabla:Es utilizado para eliminar los valores de una tabla manteniendo la estructura de esta.
+
+-----------------------CONSULTA JOIN(unir)------------------
+
+INNER JOIN(union cenntral):Se utiliza mostrar los registros que coinsiden en la tabla_1 y en la tabla_2
+--EJEMPLO:      SELECT valor/valores
+                FROM tabla_1
+                INNER JOIN tabla_2
+                ON tabla_1.primary key = tabla_2.foreign key
+
+LEFT JOIN(union izquierda):     Muestra elconjunto de completo de los valores de la tabla_1 con los con los registros registros que
+                                coinsidan en la tabla_2 (si es que los hay).
+--EJEMPLO:      SELECT valor
+                FROM tabla_1
+                LEFT JOIN tabla_2 ON tabla_1.primary key = tabla_2.foreign key
+
+RIGT JOIN(union derecha):Muestra el conjunto completo de los registros de la tabla_2 con los registros que coinsidan en la tabla_1
+                        (si es que los hay).
+--EJEMPLO:      SELECT valor
+                FROM tabla_1
+                RIGHT JOIN tabla_2 ON tabla_1.primary key = tabla_2.foreign key
+
+---------------------------CONSULTAS PARA ORDENADO DE VALORES-------------------------------------
+
+ORDER BY(ordena por):Es utilizada para especificar el criterio por el cual se pretende ordenar los registros a escribir o consultar
+--EJEMPLO:      SELECT valor
+                FROM tabla
+                ORDER BY especificacion ASC(asendete)/DESC(desendente)
+
+GROUP BY(agrupa por):Es utilizada para agrupar los registros de una tabla
+--EJEMPLO:      SELECT valor
+                FROM tabla
+                GROUP BY especificacion
+
+
+
+MAX(maximo):Esta consulta se utiliza para mostrar el valor maximo de una tabla o columna.
+--EJEMPLO:      SELECT MAX(nombre_columna)
+                FROM tabla
+
+MIN(minimo):Esta consulta se utiliza para mostrar el valor minimo de una tabla o columna.
+--EJEMPLO:      SELECT MIN(nombre_columna)
+                FROM tabla
+
+AVG(promedio):Esta consulta se utiliza para mostrar el promedio de los valores de una tabla o columna.
+--EJEMPLO:      SELECT AVG(nombre_columna)
+                FROM tabla
+
+SUM(sumar):Esta consulta se utiliza para sumar los valores de una tabla o columna.
+--EJEMPLO:      SELECT SUM(nombre_columna)
+                FROM tabla
+        NOTA:Esta consultas se pueden acompanar tambien con la sentencia WHERE para especificar solo los valores
+        a los que se aplicara.
+        --EJEMPLO:  SELECT SUM(nombre_columna)
+                FROM  tabla
+                WHERE valor = especificacion
+
+/------------------------------------SUBCONSULTAS---------------------------------------------
+Una subconsulta que se puede encontrar dentro de otra consulta SQL dentro de una consulta se pueden especificar
+hasta 16 subconsultas,las subconsultas se ejecutan de la ultima a la primera.
+--EJEMPLO:      SELECT columna
+                FROM tabla 
+                WHERE consulta 
+                SELECT AVG(valor_consulta)
+                FROM tabla;
+
+////////////////////////////////CONSULTAS AVANZADAS/////////////////////////////////
+DISTINCT(distintos):Crea una consulta SQL que muestra los valores de una o mas tablas sin mostrar valores repetidos
+
+--SIYNTAXIS BASICA:     SELECT DISTINCT columna #esta consulta muestravalores distintos de una tabla
+                        FROM tabla 
+--SYNTAXIS AVANZADA:    SELECT DISTINCT tabla_1.columna_1       #Esta consulta mostrara los valores existentes en dos tablas 
+                        FROM tabla_1                            sin mostrar valores repetidos
+                        INNER JOIN tabla_2 ON tabla_1.PRYMARY KEY = tabla_2.FOREIGN KEY;
+                #Esta consulta es util para visualizar solo los productos vendidos de una tabla de productos
+        
+COUNT(contar):Esta consulta se utiliza para mostrar el total de valores en una tabla o columna.
+
+--SYNTAXIS BASICA:      SELECT COUNT(nombre_columna)
+                        FROM tabla
+
+--SYNTAXIS AVANZADA:    SELECT tabla_1.columna_1
+                        COUNT(tabla_2.PRYMARY KEY)
+                        FROM tabla_1
+                        INNER JOIN tabla_2 ON tabla_1.PRIMARY KEY = tabla_2.FOREIGN KEY
+                        GROUP BY tabla_1.nombre columna;
+                #Esta consulta mostrara valores que coinsiden en 2 o mas tabla util por ejemplo para mostrar cuantas ventas
+                se han relizado de un producto,ventas que han tenido los empleados.etc
+
+IS NULL(nulo):Crea una consulta que muestra si un valor es nulo no no se repite en la tabla secundaria.
+                Esta consulta es una de las mas sencillas para mostrar valores de 2 tablas SQl sin repetir valores, util 
+                por ejemplo para mostrar por ejemplo:productos que no se han vendido,empleados que no han realizado ventas,
+                productos que no se a realizado compra a proveedores.etc
+                Esta apesar de ser una consulta sencilla de usar no es recomendable en bases de datos grandes ya que su resultado
+                puede resultar ambiguio.
+--SYNTAXIS:     SELECT columna
+                FROM tabla_1
+                LEFT JOIN tabla_2 ON tabla_1.PRIMARY KEY = tabla_2.FOREIGN KEY
+                WHERE tabla_2.FOREIGN KEY;
+
+NOT EXIST(no existe):Esta consulta cumple el mismo proposito que  IS NULL pero es mas eficiente por lo cual
+                        su uso es reconedado en bases de datos grandes.
+--SYNTAXIS:     SELECT tabla_1.columna
+                FROM tabla_1
+                WHERE NOT EXISTS(
+                        SELECT 1        #conevecion utilizada para verificarexistencia de datos
+                        FROM tabla_2
+                        WHERE tabla_1.PRIMARY KEY = tabla_2.FOREIGN KEY;
+                )
+
+DISTINCT & NOT EXISTS:  Las aneriores consultas utilizandose juntas pueden mostrar que se encuentra en una tabla pero no en otra util
+                        por ejemplo para saber los empledos que han relizado compras pero no ventas,productos los cuales tienen mas ventas
+                        pero no se ha surtido durante sierto tiempo.etc
+--SYNTAXIS:     SELECT DISTINCT columna
+                FROM tabla_1
+                INNER JOIN tabla_2
+                WHERE NOT EXISTS(
+                        SELECT 1
+                        FROM tabla_3
+                        WHERE tabla_3.FOREIGN KEY = tabla_1.PRYMARY KEY
+                )
+
+//////////////////////////MODIFICACION DE TABLAS////////////////////////////////
+
+ALTER TABLE nombre_tabla:Esta consulta se utliza para modificar una tabla existente suele acompanarse de las consultas:
+
+ADD COLUMN nombre_columna:Agrega columna en una tabla.
+
+DROP COLUMN nombre_columna:Elimina la columna seleccionada.
+
+DROP COLUMN nombre_columna CASCADE:Esta consulta elimina una columna junto con sus dependencias es decir llaves,relaciones.etc
+                                        USAR CON ESPECIAL CUIDADO
+
+ALTER COLUMN nombre_columna TYPE tipo dato:Modificar el tipo de dato de una calumna.
+
+RENAME COLUMN nombre_columna TO nuevo_nommbre:Esta consulta renombra la columna de una tabla.
