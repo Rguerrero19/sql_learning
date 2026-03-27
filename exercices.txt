@@ -69,6 +69,6 @@ QUEYRS:
 
 [=]Obtener el producto mas vendido
 
-*Muestra el inventario actual calculado así:
+[=]Muestra el inventario actual calculado así:
 suma de compras - menos suma de ventas
 
