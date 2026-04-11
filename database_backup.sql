@@ -1,41 +1,65 @@
 CREATE DATABASE ignacio_tienda
 
 ----------------------------TABLES---------------------------
-CREATE TABLE empleados
-(id_empleado  SERIAL PRIMARY KEY,
-nombre_empleado VARCHAR(20) NOT NULL,
-apellido VARCHAR(20) NOT NULL,
-fecha_contrato DATE DEFAULT CURRENT_DATE);
+CREATE TABLE productos(
+	id_producto SERIAL PRIMARY KEY NOT NULL,
+	nombre_producto VARCHAR(30) NOT NULL,
+	precio_venta NUMERIC(6,2) NOT NULL,
+	cantidad INTEGER NOT NULL,
+	categoria VARCHAR(20) NOT NULL
+);
 
-CREATE TABLE productos
-(id_producto INTEGER PRIMARY KEY,
-nombre_producto VARCHAR(30) NOT NULL,
-categoria VARCHAR(20) NOT NULL,
-cantidad INTEGER NOT NULL,
-precio NUMERIC (6,4) NOT NULL);
+CREATE TABLE empleados(
+	id_empleado SERIAL PRIMARY KEY NOT NULL,
+	nombre_empleado VARCHAR(20) NOT NULL,
+	apellidos VARCHAR(20) NOT NULL,
+	fecha_contrato TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE proveedores(
-id_proveedor SERIAL PRIMARY KEY,
-nombre_empresa VARCHAR(30),
-contacto VARCHAR(30) NOT NULL);
+	id_proveedor SERIAL PRIMARY KEY NOT NULL,
+	nombre_empresa VARCHAR(30) NOT NULL,
+	email VARCHAR(20),
+	numero INTEGER NOT NULL
+);
 
-CREATE TABLE ventas
-(id_venta SERIAL PRIMARY KEY,
-id_empleado INTEGER NOT NULL,
-id_producto INTEGER NOT NULL,
-id_cliente INTEGER NOT NULL,
-FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
-FOREIGN KEY (id_producto) REFERENCES productos (id_producto),
-FOREIGN key (id_cliente) REFERENCES clientes (id_cliente));
+CREATE TABLE orden_compra(
+	id_orden SERIAL PRIMARY KEY NOT NULL,
+	id_proveedor INTEGER NOT NULL,
+	orden_proveedor INTEGER NOT NULL,
+	fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (id_proveedor) REFERENCES proveedores (id_proveedor)
+);
 
-CREATE TABLE  compras
-(id_compra SERIAL PRIMARY KEY,
-id_proveedor INTEGER NOT NULL,
-id_producto INTEGER NOT NULL,
-id_empleado INTEGER NOT NULL,
-FOREIGN KEY (id_proveedor) REFERENCES proveedores (id_proveedor),
-FOREIGN KEY (id_producto)  REFERENCES productos (id_producto), 
-FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado));
+CREATE TABLE detalle_compra(
+	id_detalle SERIAL PRIMARY KEY NOT NULL
+	id_orden INTEGER NOT NULL,
+	id_proveedor INTEGER NOT NULL,
+	id_empleado INTEGER NOT NULL,
+	id_producto INTEGER NOT NULL,
+	cantidad INTEGER NOT NULL,
+	FOREIGN KEY (id_orden) REFERENCES orden_compra (id_orden),
+	FOREIGN KEY (id_proveedor) REFERENCES proveedores (id_proveedor),
+	FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
+	FOREIGN KEY (id_producto) REFERENCES productos (id_producto)
+);
+
+CREATE TABLE ventas(
+	id_venta SERIAL PRIMARY KEY NOT NULL,
+	id_empleado INTEGER NOT NULL,
+	fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE detalle_venta(
+	id_detalleventa SERIAL PRIMARY KEY NOT NULL,
+	id_venta INTEGER NOT NULL,
+	id_empleado INTEGER NOT NULL,
+	id_producto INTEGER NOT NULL,
+	cantidad integer NOT NULL,
+	FOREIGN KEY (id_venta) REFERENCES ventas (id_venta),
+	FOREIGN KEY (id_empleado) REFERENCES empleados (id_empleado),
+	FOREIGN KEY (id_producto) REFERENCES productos (id_producto)
+);
 
 ----------------------INSERTS---------------------------------
 
@@ -242,3 +266,54 @@ SELECT
 -
 (SELECT SUM (precio) FROM compras JOIN productos ON compras.id_producto = productos.id_producto)
 AS ganancia 
+
+
+
+-------------------------------------------------------------------------------
+------------------------BACKUP TABLA COMPRAS-----------------
+CREATE TABLE productos(
+	id_producto SERIAL PRIMARY KEY NOT NULL,
+	nombre_producto VARCHAR (30) NOT NULL,
+	precio_venta NUMERIC (6,2),
+	cantidad INTEGER NOT NULL
+);
+
+CREATE TABLE proveedores(
+	id_proveedor SERIAL PRIMARY KEY NOT NULL,
+	nombre_empresa VARCHAR (30)
+);
+
+CREATE TABLE orden_compra(
+	id_orden SERIAL PRIMARY KEY NOT NULL,
+	id_proveedor INTEGER NOT NULL,
+	fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (id_proveedor) REFERENCES proveedores (id_proveedor)
+);
+
+CREATE TABLE detalle_compra(
+	id_detalle SERIAL PRIMARY KEY NOT NULL,
+	id_orden INTEGER NOT NULL,
+	id_producto INTEGER NOT NULL,
+	cantidad INTEGER,
+	FOREIGN KEY (id_orden) REFERENCES orden_compra (id_orden),
+	FOREIGN KEY (id_producto) REFERENCES productos (id_producto)
+);
+
+INSERT INTO proveedores (nombre_empresa)
+VALUES ('sabritas'),('bimbo');
+
+INSERT INTO productos (nombre_producto,precio_venta,cantidad)
+VALUES ('sabritas 100g',20,0),('rufles 100g',20,0)
+
+INSERT INTO orden_compra (id_proveedor)
+VALUES (1);
+
+INSERT INTO detalle_compra (id_orden,id_producto,cantidad)
+VALUES(1,1,5),(1,2,10);
+UPDATE productos
+SET cantidad = cantidad + (
+	SELECT SUM(cantidad)
+	FROM detalle_compra
+	WHERE detalle_compra.id_producto = productos.id_producto
+	AND detalle_compra.id_orden = 1)
+WHERE productos.id_producto IN (SELECT id_producto FROM detalle_compra WHERE id_orden =1);
