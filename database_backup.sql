@@ -16,6 +16,9 @@ CREATE TABLE empleados(
 	fecha_contrato TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE empleados
+ADD COLUMN fecha_recesion DATE;
+
 CREATE TABLE proveedores(
 	id_proveedor SERIAL PRIMARY KEY NOT NULL,
 	nombre_empresa VARCHAR(30) NOT NULL,
@@ -63,33 +66,23 @@ CREATE TABLE detalle_venta(
 
 ----------------------INSERTS---------------------------------
 
---inserta 3 empleados nuevos
-INSERT INTO empleados (nombre_empleado,apellido)
-VALUES('Ignacio,mendoza');
+--inserta empleados nuevos
+INSERT INTO empleados(nombre_empleado,apellidos)
+VALUES	('Ramon Ignacio','Mendoza Guerrero'),
+		('Daniela','Flores Leyva'),
+		('Norma','Silvina Guerrero');
 
-INSERT INTO empleados (nombre_empleado,apellido)
-VALUES('Daniela','flores');
+--Inserta productos en distintas categorías.--
+INSERT INTO productos(id_producto,nombre_producto,precio_venta,cantidad,categoria)
+VALUES	(750111,'sabritas sal 100g',20,0,'frituras'),
+		(750222,'sabritas limon 100g',20,0,'frituras'),
+		(750333,'pan bimbo integral 150g',52,0,'abarrotes'),
+		(750444,'pan bimbo blanco 150g',50,0,'abarrotes');
 
-INSERT INTO empleados (nombre_empleado,apellido)
-VALUES('Norma','Silvina');
-
---Inserta 5 productos en distintas categorías.--
-INSERT INTO productos VALUES
-(750767676,'sidral mundet 2L','refrescos familiares',12),
-(750232323,'sabritas original 50g','frituras',12),
-(750123456,'pan dulce','frescos',12),
-(750555111,'leche monarca 1.8L','lacteos',12),
-(750333555,'vino tinto cavernet','vinos y licores',12);
-
---Inserta 3 proveedores.
-INSERT INTO proveedores (nombre_empresa,contacto)
-VALUES ('sabritas','5551234567');
-
-INSERT INTO proveedores (nombre_empresa,contacto)
-VALUES ('coca cola','5557654321');
-
-INSERT INTO proveedores (nombre_empresa,contacto)
-VALUES('lala','correo_lala.com')
+--Inserta proveedores.
+INSERT INTO proveedores(nombre_empresa,email,numero)
+VALUES 	('sabritas','sabritas_email.com',55512345),
+		('bimbo','bimbo_email.com',55598765);
 
 --registra 3 compras a distintos proveedores
 INSERT INTO compras (id_proveedor,id_producto,id_empleado)
@@ -271,49 +264,36 @@ AS ganancia
 
 -------------------------------------------------------------------------------
 ------------------------BACKUP TABLA COMPRAS-----------------
-CREATE TABLE productos(
-	id_producto SERIAL PRIMARY KEY NOT NULL,
-	nombre_producto VARCHAR (30) NOT NULL,
-	precio_venta NUMERIC (6,2),
-	cantidad INTEGER NOT NULL
-);
+INSERT INTO proveedores(nombre_empresa,email,numero)
+VALUES 	('sabritas','sabritas_email.com',55512345),
+		('bimbo','bimbo_email.com',55598765);
 
-CREATE TABLE proveedores(
-	id_proveedor SERIAL PRIMARY KEY NOT NULL,
-	nombre_empresa VARCHAR (30)
-);
+INSERT INTO productos(id_producto,nombre_producto,precio_venta,cantidad,categoria)
+VALUES	(750111,'sabritas sal 100g',20,0,'frituras'),
+		(750222,'sabritas limon 100g',20,0,'frituras'),
+		(750333,'pan bimbo integral 150g',52,0,'abarrotes'),
+		(750444,'pan bimbo blanco 150g',50,0,'abarrotes');
 
-CREATE TABLE orden_compra(
-	id_orden SERIAL PRIMARY KEY NOT NULL,
-	id_proveedor INTEGER NOT NULL,
-	fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (id_proveedor) REFERENCES proveedores (id_proveedor)
-);
-
-CREATE TABLE detalle_compra(
-	id_detalle SERIAL PRIMARY KEY NOT NULL,
-	id_orden INTEGER NOT NULL,
-	id_producto INTEGER NOT NULL,
-	cantidad INTEGER,
-	FOREIGN KEY (id_orden) REFERENCES orden_compra (id_orden),
-	FOREIGN KEY (id_producto) REFERENCES productos (id_producto)
-);
-
-INSERT INTO proveedores (nombre_empresa)
-VALUES ('sabritas'),('bimbo');
-
-INSERT INTO productos (nombre_producto,precio_venta,cantidad)
-VALUES ('sabritas 100g',20,0),('rufles 100g',20,0)
-
-INSERT INTO orden_compra (id_proveedor)
-VALUES (1);
-
-INSERT INTO detalle_compra (id_orden,id_producto,cantidad)
-VALUES(1,1,5),(1,2,10);
-UPDATE productos
+INSERT INTO detalle_compra(id_orden,id_proveedor,id_empleado,id_producto,cantidad)
+VALUES	(1,1,1,750111,12);
+UPDATE	productos
 SET cantidad = cantidad + (
 	SELECT SUM(cantidad)
 	FROM detalle_compra
 	WHERE detalle_compra.id_producto = productos.id_producto
 	AND detalle_compra.id_orden = 1)
-WHERE productos.id_producto IN (SELECT id_producto FROM detalle_compra WHERE id_orden =1);
+WHERE productos.id_producto IN(SELECT id_producto FROM detalle_compra WHERE id_orden = 1);
+
+----VENTA--------
+INSERT INTO ventas(id_empleado)
+VALUES (1)
+
+INSERT INTO detalle_venta(id_venta,id_empleado,id_producto,cantidad)
+VALUES (1,1,750111,3);
+UPDATE productos
+SET cantidad = cantidad - (
+	SELECT SUM(cantidad)
+	FROM detalle_venta
+	WHERE detalle_venta.id_producto = productos.id_producto
+	AND detalle_venta.id_venta = 1)
+WHERE productos.id_producto IN(SELECT id_producto FROM detalle_venta WHERE id_venta =1);
