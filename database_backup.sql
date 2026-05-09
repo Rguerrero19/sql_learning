@@ -6,18 +6,17 @@ CREATE TABLE productos(
 	nombre_producto VARCHAR(30) NOT NULL,
 	precio_venta NUMERIC(6,2) NOT NULL,
 	cantidad INTEGER NOT NULL,
-	categoria VARCHAR(20) NOT NULL
+	categoria VARCHAR(20) NOT NULL,
+	costo_compra NUMERIC (6,2) NOT NULL
 );
 
 CREATE TABLE empleados(
 	id_empleado SERIAL PRIMARY KEY NOT NULL,
 	nombre_empleado VARCHAR(20) NOT NULL,
 	apellidos VARCHAR(20) NOT NULL,
-	fecha_contrato TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	fecha_contrato TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	fecha_recesion DATE
 );
-
-ALTER TABLE empleados
-ADD COLUMN fecha_recesion DATE;
 
 CREATE TABLE proveedores(
 	id_proveedor SERIAL PRIMARY KEY NOT NULL,
@@ -35,7 +34,7 @@ CREATE TABLE orden_compra(
 );
 
 CREATE TABLE detalle_compra(
-	id_detalle SERIAL PRIMARY KEY NOT NULL
+	id_detalle SERIAL PRIMARY KEY NOT NULL,
 	id_orden INTEGER NOT NULL,
 	id_proveedor INTEGER NOT NULL,
 	id_empleado INTEGER NOT NULL,
@@ -74,16 +73,17 @@ VALUES	('Ramon Ignacio','Mendoza Guerrero'),
 
 --Inserta productos en distintas categorías.--
 INSERT INTO productos(id_producto,nombre_producto,precio_venta,cantidad,categoria)
-VALUES	(750111,'sabritas sal 100g',20,0,'frituras'),
-		(750222,'sabritas limon 100g',20,0,'frituras'),
-		(750333,'pan bimbo integral 150g',52,0,'abarrotes'),
-		(750444,'pan bimbo blanco 150g',50,0,'abarrotes');
+VALUES	(750111,'sabritas sal 100g',20,0,'frituras',10),
+		(750222,'sabritas limon 100g',20,0,'frituras',10),
+		(750333,'pan bimbo integral 150g',52,0,'abarrotes',25),
+		(750444,'pan bimbo blanco 150g',50,0,'abarrotes',23);
 
 --Inserta proveedores.
 INSERT INTO proveedores(nombre_empresa,email,numero)
 VALUES 	('sabritas','sabritas_email.com',55512345),
 		('bimbo','bimbo_email.com',55598765);
 
+----------------------------ejemplo nulo-----------------------------------------------------
 --registra 3 compras a distintos proveedores
 INSERT INTO compras (id_proveedor,id_producto,id_empleado)
 VALUES (2,750767676,1);
@@ -93,6 +93,7 @@ VALUES (1,750232323,3)
 
 INSERT INTO compras (id_proveedor,id_producto,id_empleado)
 VALUES(3,750555111,2)
+--------------------------------ejemplo nulo------------------------------------------------------
 
 --incrementa en 5 unidades la cantidad de los productos de una categoria
     UPDATE productos
@@ -125,7 +126,7 @@ WHERE id_producto = 750555111;
 
                     --CONSULTAS--
 
---muestra el nombre y apellido de los empleados junto con el ide de venta que hayan realizado
+--muestra el nombre y apellido de los empleados junto con el id de venta que hayan realizado
 SELECT nombre_empleado,apellido,id_venta
 FROM empleados,ventas
 WHERE empleados.id_empleado = ventas.id_venta;
@@ -260,19 +261,10 @@ SELECT
 (SELECT SUM (precio) FROM compras JOIN productos ON compras.id_producto = productos.id_producto)
 AS ganancia 
 
-
-
 -------------------------------------------------------------------------------
-------------------------BACKUP TABLA COMPRAS-----------------
-INSERT INTO proveedores(nombre_empresa,email,numero)
-VALUES 	('sabritas','sabritas_email.com',55512345),
-		('bimbo','bimbo_email.com',55598765);
-
-INSERT INTO productos(id_producto,nombre_producto,precio_venta,cantidad,categoria)
-VALUES	(750111,'sabritas sal 100g',20,0,'frituras'),
-		(750222,'sabritas limon 100g',20,0,'frituras'),
-		(750333,'pan bimbo integral 150g',52,0,'abarrotes'),
-		(750444,'pan bimbo blanco 150g',50,0,'abarrotes');
+------------------------COMPRAS------------------------------
+NSERT INTO orden_compra(id_proveedor,orden_proveedor)
+VALUES	(1,060626);
 
 INSERT INTO detalle_compra(id_orden,id_proveedor,id_empleado,id_producto,cantidad)
 VALUES	(1,1,1,750111,12);
@@ -296,4 +288,18 @@ SET cantidad = cantidad - (
 	FROM detalle_venta
 	WHERE detalle_venta.id_producto = productos.id_producto
 	AND detalle_venta.id_venta = 1)
-WHERE productos.id_producto IN(SELECT id_producto FROM detalle_venta WHERE id_venta =1);
+WHERE productos.id_producto IN(SELECT id_producto FROM detalle_venta WHERE id_venta = 1);
+
+--------------------------------------------------------------
+SELECT nombre_producto,
+SUM(cantidad * precio_venta) AS total_venta,
+SUM(cantidad * costo_compra) AS total_compra,
+SUM(cantidad * precio_venta) - (cantidad * costo_compra) AS ganancia
+FROM productos
+LEFT JOIN detalle_compra ON productos.id_producto = detalle_compra.id_producto
+LEFT JOIN detalle_venta ON  productos.id_producto = detalle_venta.id_producto
+GROUP BY productos.nombre_producto
+HAVING total_vendido > total_comprado
+ORDER BY ganancia DESC;
+#incompleto
+----------------------------------------------------------
