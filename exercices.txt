@@ -72,3 +72,16 @@ QUEYRS:
 [=]Muestra el inventario actual calculado así:
 suma de compras - menos suma de ventas
 
+[]Obten los productos cuyo ingreso totalpor ventas es mayor que el  costo total
+de compras mostrando de la siguiente manera:
+*Nombre del producto
+*Total vendido
+*Total comprado
+*Diferencia
+
+[]Para cada cliente, muestra su última compra (venta) registrada.
+mostrar:
+* nombre del cliente
+* fecha de su última compra
+* monto de esa compra
+* empleado que lo atendió
