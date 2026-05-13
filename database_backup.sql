@@ -83,6 +83,34 @@ INSERT INTO proveedores(nombre_empresa,email,numero)
 VALUES 	('sabritas','sabritas_email.com',55512345),
 		('bimbo','bimbo_email.com',55598765);
 
+------------------------COMPRA------------------------------
+INSERT INTO orden_compra(id_proveedor,orden_proveedor)
+VALUES	(1,060626);
+
+INSERT INTO detalle_compra(id_orden,id_proveedor,id_empleado,id_producto,cantidad)
+VALUES	(1,1,1,750111,12);
+UPDATE	productos
+SET cantidad = cantidad + (
+	SELECT SUM(cantidad)
+	FROM detalle_compra
+	WHERE detalle_compra.id_producto = productos.id_producto
+	AND detalle_compra.id_orden = 1)
+WHERE productos.id_producto IN(SELECT id_producto FROM detalle_compra WHERE id_orden = 1);
+
+----VENTA--------
+INSERT INTO ventas(id_empleado)
+VALUES (1)
+
+INSERT INTO detalle_venta(id_venta,id_empleado,id_producto,cantidad)
+VALUES (1,1,750111,3);
+UPDATE productos
+SET cantidad = cantidad - (
+	SELECT SUM(cantidad)
+	FROM detalle_venta
+	WHERE detalle_venta.id_producto = productos.id_producto
+	AND detalle_venta.id_venta = 1)
+WHERE productos.id_producto IN(SELECT id_producto FROM detalle_venta WHERE id_venta = 1);
+
 ----------------------------ejemplo nulo-----------------------------------------------------
 --registra 3 compras a distintos proveedores
 INSERT INTO compras (id_proveedor,id_producto,id_empleado)
@@ -263,7 +291,7 @@ AS ganancia
 
 -------------------------------------------------------------------------------
 ------------------------COMPRAS------------------------------
-NSERT INTO orden_compra(id_proveedor,orden_proveedor)
+INSERT INTO orden_compra(id_proveedor,orden_proveedor)
 VALUES	(1,060626);
 
 INSERT INTO detalle_compra(id_orden,id_proveedor,id_empleado,id_producto,cantidad)
